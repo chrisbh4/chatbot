@@ -17,7 +17,8 @@ const ChatApp: React.FC = () => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const response = await fetch('/api', {
+      // Ensure the correct API URL is used here
+      const response = await fetch('http://localhost:8000/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,8 +27,18 @@ const ChatApp: React.FC = () => {
       });
 
       const data = await response.json();
-      const serverMessage: Message = { text: data.response, from: 'server' };
-      setMessages((prevMessages) => [...prevMessages, serverMessage]);
+
+      // Check if there is a response from the server
+      if (data.response) {
+        const serverMessage: Message = { text: data.response, from: 'server' };
+        setMessages((prevMessages) => [...prevMessages, serverMessage]);
+      } else if (data.error) {
+        const errorMessage: Message = {
+          text: `Error: ${data.error}`,
+          from: 'server',
+        };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }
     } catch (error) {
       const errorMessage: Message = {
         text: 'Error: Could not reach server.',
@@ -35,7 +46,7 @@ const ChatApp: React.FC = () => {
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     } finally {
-      setInputText('');
+      setInputText('');  // Clear input field after sending message
     }
   };
 
@@ -63,7 +74,7 @@ const ChatApp: React.FC = () => {
         <button onClick={sendMessage}>Send</button>
       </div>
     </div>
-  ); // <-- Added semicolon here
+  );
 };
 
-ReactDOM.render(<ChatApp />, document.getElementById('root')); // Semicolon here is correct
+ReactDOM.render(<ChatApp />, document.getElementById('root'));

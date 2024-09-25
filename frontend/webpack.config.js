@@ -35,7 +35,7 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,  // Enable gzip compression for everything served
-    port: 9000,      // Change port if necessary
+    port: 3000,      // Change port if necessary
     open: true,      // Open the browser automatically
     hot: true,       // Enable hot module replacement
     liveReload: true,  // Auto-reload on file changes
