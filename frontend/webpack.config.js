@@ -3,10 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './index.tsx',
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    clean: true,  // Automatically clean the dist folder
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -26,16 +27,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './index.html',  // Correct path to your index.html file
     }),
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'), // Ensure 'static' is used instead of 'contentBase'
+      directory: path.join(__dirname, 'dist'),
     },
-    port: 9000, // Port for the dev server
-    open: true, // Open browser automatically
-    hot: true, // Enable hot module replacement
+    compress: true,  // Enable gzip compression for everything served
+    port: 9000,      // Change port if necessary
+    open: true,      // Open the browser automatically
+    hot: true,       // Enable hot module replacement
+    liveReload: true,  // Auto-reload on file changes
   },
 };
-
